@@ -6,6 +6,7 @@ import 'package:speech/model/postCommentModel.dart';
 import 'package:speech/model/postModel.dart';
 import 'package:speech/provider/postCommentProvider.dart';
 import 'package:speech/ui/profile/profileAvatar.dart';
+import 'package:speech/ui/widgets/widgets.dart';
 import 'package:speech/utils/timeUtils.dart';
 
 class PostComment extends HookConsumerWidget {
@@ -18,7 +19,44 @@ class PostComment extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final postComments = ref.watch(postCommentStateProvider).postComments;
+    final state = ref.watch(postCommentStateProvider).postCommentUIState;
+    final postComments = ref.read(postCommentStateProvider).postComments;
+
+    late Widget body;
+    switch (state) {
+      case PostCommentUIState.NONE:
+      case PostCommentUIState.LOADING:
+        body = Center(
+          child: AppWidgets.loadingAnimation(size: 30),
+        );
+        break;
+
+      case PostCommentUIState.DONE:
+        body = postComments.isEmpty
+            ? Center(
+                child: Text(
+                  "Be the first to comment",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              )
+            : ListView.builder(
+                itemCount: postComments.length,
+                itemBuilder: (context, index) {
+                  final postComment = postComments[index];
+                  return _SinglePostComment(postComment: postComment);
+                },
+              );
+        break;
+
+      case PostCommentUIState.ERROR:
+        body = Center(
+          child: Text(
+            "There seems to be a problem",
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+        );
+        break;
+    }
 
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.5,
@@ -31,22 +69,7 @@ class PostComment extends HookConsumerWidget {
                   color: Colors.white,
                 ),
           ),
-          Expanded(
-            child: postComments.isEmpty
-                ? Center(
-                    child: Text(
-                      "Be the first to comment",
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                  )
-                : ListView.builder(
-                    itemCount: postComments.length,
-                    itemBuilder: (context, index) {
-                      final postComment = postComments[index];
-                      return _SinglePostComment(postComment: postComment);
-                    },
-                  ),
-          ),
+          Expanded(child: body),
           _CommentForm(post: post),
           const SizedBox(height: 5),
         ],
@@ -128,8 +151,7 @@ class _SinglePostComment extends ConsumerWidget {
   const _SinglePostComment({
     Key? key,
     required this.postComment,
-  }) : super(key: key) ;
-
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -137,17 +159,29 @@ class _SinglePostComment extends ConsumerWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
-      child: ListTile(
+      child: ExpansionTile(
         leading: const ProfileAvatar(),
         title: Text(
           postComment.comment,
           style: Theme.of(context).textTheme.titleMedium,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
         subtitle: Text(
           TimeUtils.datePlusTime(postComment.createdAt),
           style: Theme.of(context).textTheme.bodySmall,
         ),
         trailing: _LikeButton(postComment: postComment),
+        expandedAlignment: Alignment.centerLeft,
+        childrenPadding: const EdgeInsets.symmetric(horizontal: 8).copyWith(
+          bottom: 5,
+        ),
+        children: [
+          Text(
+            postComment.comment,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+        ],
       ),
     );
   }
@@ -184,19 +218,19 @@ class _LikeButton extends HookConsumerWidget {
         children: [
           isLiked.value
               ? const Icon(
-            CupertinoIcons.heart_fill,
-            color: Colors.redAccent,
-            size: iconSize,
-          )
+                  CupertinoIcons.heart_fill,
+                  color: Colors.redAccent,
+                  size: iconSize,
+                )
               : const Icon(
-            CupertinoIcons.heart,
-            size: iconSize,
-          ),
+                  CupertinoIcons.heart,
+                  size: iconSize,
+                ),
           Text(
             _likeCount.toString(),
             style: Theme.of(context).textTheme.bodySmall!.copyWith(
-              color: Colors.grey,
-            ),
+                  color: Colors.grey,
+                ),
           )
         ],
       ),

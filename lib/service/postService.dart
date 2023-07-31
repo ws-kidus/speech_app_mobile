@@ -28,7 +28,7 @@ class PostService extends StateNotifier<PostState> {
           speech: "speech1",
           creatorId: 1,
           creatorName: "kidus",
-          likeCount: 0,
+          likeCount: 1,
           liked: true,
           commentCount: 0,
           repostCount: 100,
