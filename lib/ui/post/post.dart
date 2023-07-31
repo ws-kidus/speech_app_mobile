@@ -6,10 +6,13 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:speech/constants/constants.dart';
 import 'package:speech/model/postModel.dart';
+import 'package:speech/provider/postCommentProvider.dart';
 import 'package:speech/provider/postProvider.dart';
 import 'package:speech/ui/post/postImage.dart';
+import 'package:speech/ui/postComment/postCommnet.dart';
 import 'package:speech/ui/profile/profileAvatar.dart';
 import 'package:speech/ui/widgets/carousel.dart';
+import 'package:speech/ui/widgets/dialogs.dart';
 import 'package:speech/ui/widgets/widgets.dart';
 import 'package:speech/utils/timeUtils.dart';
 
@@ -59,7 +62,14 @@ class _SinglePost extends ConsumerWidget {
     required this.post,
   }) : super(key: key);
 
-  _onComment(BuildContext context, WidgetRef ref) {}
+  _onComment(BuildContext context, WidgetRef ref) {
+    ref.read(postCommentStateProvider.notifier).fetchPostComments(post.id);
+    Dialogs.bottomSheet(
+      context: context,
+      child: PostComment(post: post),
+      avoidBottomInsects: true,
+    );
+  }
 
   _onRepost(BuildContext context, WidgetRef ref) {}
 
@@ -144,7 +154,7 @@ class _SinglePost extends ConsumerWidget {
         children: [
           if (post.images.isNotEmpty)
             GestureDetector(
-              onTap: ()=> _onPostImageTap(context),
+              onTap: () => _onPostImageTap(context),
               child: Carousel(
                 items: post.images
                     .map((image) => _postImage(
@@ -239,7 +249,7 @@ class _LikeButton extends HookConsumerWidget {
     _likeCount = post.likeCount;
   }
 
-  _onLike(WidgetRef ref, ValueNotifier<bool> notifier, int likeCount) {
+  _onLike(WidgetRef ref, ValueNotifier<bool> notifier) {
     if (notifier.value) {
       _likeCount -= 1;
     } else {
@@ -254,7 +264,7 @@ class _LikeButton extends HookConsumerWidget {
 
     const iconSize = 32.0;
     return IconButton(
-      onPressed: () => _onLike(ref, isLiked, _likeCount),
+      onPressed: () => _onLike(ref, isLiked),
       icon: Column(
         children: [
           isLiked.value

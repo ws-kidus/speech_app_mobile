@@ -1,32 +1,35 @@
-class CommentModel {
+class PostCommentModel {
   final int id;
   final int creatorId;
   final int postId;
   final String comment;
-  final String likeCount;
-  final int status;
+  final bool liked;
+  final int likeCount;
+  final DateTime createdAt;
 
 //<editor-fold desc="Data Methods">
-  const CommentModel({
+  const PostCommentModel({
     required this.id,
     required this.creatorId,
     required this.postId,
     required this.comment,
+    required this.liked,
     required this.likeCount,
-    required this.status,
+    required this.createdAt,
   });
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is CommentModel &&
+      (other is PostCommentModel &&
           runtimeType == other.runtimeType &&
           id == other.id &&
           creatorId == other.creatorId &&
           postId == other.postId &&
           comment == other.comment &&
+          liked == other.liked &&
           likeCount == other.likeCount &&
-          status == other.status);
+          createdAt == other.createdAt);
 
   @override
   int get hashCode =>
@@ -34,36 +37,40 @@ class CommentModel {
       creatorId.hashCode ^
       postId.hashCode ^
       comment.hashCode ^
+      liked.hashCode ^
       likeCount.hashCode ^
-      status.hashCode;
+      createdAt.hashCode;
 
   @override
   String toString() {
-    return 'CommentModel{' +
+    return 'PostCommentModel{' +
         ' id: $id,' +
         ' creatorId: $creatorId,' +
         ' postId: $postId,' +
         ' comment: $comment,' +
+        ' liked: $liked,' +
         ' likeCount: $likeCount,' +
-        ' status: $status,' +
+        ' createdAt: $createdAt,' +
         '}';
   }
 
-  CommentModel copyWith({
+  PostCommentModel copyWith({
     int? id,
     int? creatorId,
     int? postId,
     String? comment,
-    String? likeCount,
-    int? status,
+    bool? liked,
+    int? likeCount,
+    DateTime? createdAt,
   }) {
-    return CommentModel(
+    return PostCommentModel(
       id: id ?? this.id,
       creatorId: creatorId ?? this.creatorId,
       postId: postId ?? this.postId,
       comment: comment ?? this.comment,
+      liked: liked ?? this.liked,
       likeCount: likeCount ?? this.likeCount,
-      status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
     );
   }
 
@@ -73,19 +80,21 @@ class CommentModel {
       'creatorId': this.creatorId,
       'postId': this.postId,
       'comment': this.comment,
+      'liked': this.liked,
       'likeCount': this.likeCount,
-      'status': this.status,
+      'createdAt': this.createdAt,
     };
   }
 
-  factory CommentModel.fromMap(Map<String, dynamic> map) {
-    return CommentModel(
+  factory PostCommentModel.fromMap(Map<String, dynamic> map) {
+    return PostCommentModel(
       id: map['id'] as int,
       creatorId: map['creatorId'] as int,
       postId: map['postId'] as int,
       comment: map['comment'] as String,
-      likeCount: map['likeCount'] as String,
-      status: map['status'] as int,
+      liked: map['liked'] as bool,
+      likeCount: map['likeCount'] as int,
+      createdAt: map['createdAt'] as DateTime,
     );
   }
 
