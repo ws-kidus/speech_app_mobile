@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:speech/constants/constants.dart';
 import 'package:speech/model/postModel.dart';
 import 'package:speech/provider/postProvider.dart';
@@ -62,7 +63,15 @@ class _SinglePost extends ConsumerWidget {
 
   _onRepost(BuildContext context, WidgetRef ref) {}
 
-  _onShare(BuildContext context, WidgetRef ref) {}
+  _onShare(BuildContext context, WidgetRef ref) async {
+    final box = context.findRenderObject() as RenderBox?;
+
+    await Share.share(
+      post.speech,
+      subject: "Speech app",
+      sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+    );
+  }
 
   _onPostImageTap(BuildContext context) {
     Navigator.push(
