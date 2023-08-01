@@ -1,7 +1,7 @@
 
 class Constants{
 
-  static String BASEAPI = "http://127.0.0.0:8000/api";
+  static String BASEAPI = "http://10.11.155.188:8000/api";
   static String IMAGEURL = "";
 }
 

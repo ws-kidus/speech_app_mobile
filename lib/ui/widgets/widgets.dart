@@ -11,11 +11,12 @@ class AppWidgets {
   }
 
   static Widget errorMessage({
-    String errorText = "there seems to be a problem",
+    String errorText = "There seems to be a problem",
     required BuildContext context,
     required VoidCallback function,
   }) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           errorText,

@@ -38,9 +38,11 @@ class PostScreen extends ConsumerWidget {
           child: AppWidgets.loadingAnimation(),
         );
       case PostUIState.ERROR:
-        return AppWidgets.errorMessage(
-          context: context,
-          function: () => _onRetry(ref),
+        return Center(
+          child: AppWidgets.errorMessage(
+            context: context,
+            function: () => _onRetry(ref),
+          ),
         );
       case PostUIState.DONE:
         return ListView.builder(
