@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 class DioClient {
   static final DioClient _singleton = DioClient._internal();
   final baseOptions = BaseOptions(
-    baseUrl: Constants.BASEAPI,
+    baseUrl: Constants.LOCALHOST,
     connectTimeout: const Duration(seconds: 5),
     receiveTimeout: const Duration(seconds: 3),
   );

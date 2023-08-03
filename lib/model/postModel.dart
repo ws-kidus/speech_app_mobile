@@ -113,7 +113,6 @@ class PostModel {
   factory PostModel.fromMap(Map<String, dynamic> map) {
     final List<ImageModel> images = [];
     map['images'].map((e) => images.add(ImageModel.fromMap(e))).toList();
-
     return PostModel(
       id: map['id'],
       speech: map['speech'],

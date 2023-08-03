@@ -13,9 +13,7 @@ class PostRepo {
   }) async {
     Response response = await _client.dio.get(
       "/posts",
-      queryParameters: {
-        "page": page,
-      },
+      queryParameters: {"page": page},
     );
     return response;
   }

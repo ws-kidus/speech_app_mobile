@@ -13,7 +13,7 @@ class PostService extends StateNotifier<PostState> {
   PostService({
     required this.ref,
   }) : super(
-          const PostState(
+           PostState(
             postUIState: PostUIState.NONE,
             loadMoreUIState: LoadMoreUIState.NONE,
             posts: [],
