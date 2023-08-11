@@ -21,7 +21,6 @@ class NotificationIcon extends ConsumerWidget {
             height: 100,
             child: const Icon(
               CupertinoIcons.bell,
-              size: 38,
             ),
           ),
           Positioned(

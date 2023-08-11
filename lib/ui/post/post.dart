@@ -131,12 +131,11 @@ class _SinglePost extends ConsumerWidget {
     required IconData iconData,
     required String count,
   }) {
-    const iconSize = 32.0;
     return IconButton(
       onPressed: onPressed,
       icon: Column(
         children: [
-          Icon(iconData, size: iconSize),
+          Icon(iconData),
           Text(
             count,
             style: Theme.of(context).textTheme.bodySmall!.copyWith(
@@ -264,21 +263,13 @@ class _LikeButton extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isLiked = useState<bool>(post.liked);
 
-    const iconSize = 32.0;
     return IconButton(
       onPressed: () => _onLike(ref, isLiked),
       icon: Column(
         children: [
           isLiked.value
-              ? const Icon(
-                  CupertinoIcons.heart_fill,
-                  color: Colors.redAccent,
-                  size: iconSize,
-                )
-              : const Icon(
-                  CupertinoIcons.heart,
-                  size: iconSize,
-                ),
+              ? const Icon(CupertinoIcons.heart_fill, color: Colors.redAccent)
+              : const Icon(CupertinoIcons.heart),
           Text(
             _likeCount.toString(),
             style: Theme.of(context).textTheme.bodySmall!.copyWith(
