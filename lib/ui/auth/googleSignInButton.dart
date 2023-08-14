@@ -33,7 +33,7 @@ class GoogleSignInButton extends ConsumerWidget {
     final state = ref.watch(googleSignInStateProvider).googleSignInUIState;
     switch (state) {
       case GoogleSignInUIState.LOADING:
-        return AppWidgets.loadingAnimation();
+        return AppWidgets.loadingAnimation(size: 25);
       default:
         return OutlinedButton(
           style: OutlinedButton.styleFrom(

@@ -42,6 +42,13 @@ class GoogleService extends StateNotifier<GoogleState> {
         return;
       }
 
+      final id = account.id;
+      final name = account.displayName;
+      final email = account.email;
+      final photoUrl = account.photoUrl;
+
+      
+
       state = state.copyWith(googleSignInUIState: GoogleSignInUIState.OK);
 
 

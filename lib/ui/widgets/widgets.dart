@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class AppWidgets {
-  static Widget loadingAnimation({double size = 50}) {
-    return LoadingAnimationWidget.inkDrop(
+  static Widget loadingAnimation({double size = 30}) {
+    return LoadingAnimationWidget.threeArchedCircle(
       color: Colors.purple,
       size: size,
     );
