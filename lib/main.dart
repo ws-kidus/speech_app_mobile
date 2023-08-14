@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:speech/constants/theme.dart';
+import 'package:speech/ui/auth/authSelection.dart';
 import 'package:speech/ui/base.dart';
 
 void main() {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      home: const BaseScreen(),
+      home: const AuthSelectionScreen(),
     );
   }
 }
