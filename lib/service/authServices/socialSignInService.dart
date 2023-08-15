@@ -4,22 +4,25 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:speech/provider/authProviders/googleProvider.dart';
+import 'package:speech/provider/authProviders/socialSignInProvider.dart';
 
-class GoogleService extends StateNotifier<GoogleState> {
+class SocialSignInService extends StateNotifier<SocialSignInState> {
   final Ref ref;
 
-  GoogleService({
+  SocialSignInService({
     required this.ref,
   }) : super(
-          const GoogleState(
+          const SocialSignInState(
             googleSignInUIState: GoogleSignInUIState.NONE,
+            facebookSignInUIState: FacebookSignInUIState.NONE,
           ),
         );
 
+  //<editor-fold desc= "Google">
+
   static final _googleSignIn = GoogleSignIn();
 
-  static Future<GoogleSignInAccount?> login() async {
+  static Future<GoogleSignInAccount?> fetchGoogleSignInAccount() async {
     debugPrint("GOOGLE LOGIN");
     GoogleSignInAccount? account;
     try {
@@ -35,7 +38,7 @@ class GoogleService extends StateNotifier<GoogleState> {
     debugPrint("INITIALIZE GOOGLE LOGIN");
     state = state.copyWith(googleSignInUIState: GoogleSignInUIState.LOADING);
     try {
-      final account = await login();
+      final account = await fetchGoogleSignInAccount();
 
       if (account == null) {
         state = state.copyWith(googleSignInUIState: GoogleSignInUIState.ERROR);
@@ -63,4 +66,34 @@ class GoogleService extends StateNotifier<GoogleState> {
       state = state.copyWith(googleSignInUIState: GoogleSignInUIState.ERROR);
     }
   }
+
+  //  </editor-fold>
+
+//<editor-fold desc = "Facebook">
+  signInWithFacebook() async {
+    debugPrint("INITIALIZE FACEBOOK LOGIN");
+    state = state.copyWith(facebookSignInUIState: FacebookSignInUIState.LOADING);
+    try {
+
+
+
+
+
+      state = state.copyWith(facebookSignInUIState: FacebookSignInUIState.OK);
+
+
+    } on DioException catch (ex) {
+      debugPrint("ERROR ON INITIALIZE FACEBOOK LOGIN");
+      debugPrint("DIO ERROR TYPE ${ex.type.name}");
+      debugPrint("ERROR MESSAGE ${ex.error}");
+      state = state.copyWith(facebookSignInUIState: FacebookSignInUIState.ERROR);
+    } catch (e) {
+      debugPrint("ERROR ON INITIALIZE FACEBOOK LOGIN");
+      debugPrint("Error Occurred ${e.toString()}");
+      state = state.copyWith(facebookSignInUIState: FacebookSignInUIState.ERROR);
+    }
+  }
+
+//</editor-fold>
+
 }

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_animations/simple_animations.dart';
-import 'package:speech/service/authServices/googleService.dart';
+import 'package:speech/service/authServices/socialSignInService.dart';
+import 'package:speech/ui/auth/facebookSignInButton.dart';
 import 'package:speech/ui/auth/googleSignInButton.dart';
 
 class AuthSelectionScreen extends ConsumerWidget {
@@ -12,7 +13,7 @@ class AuthSelectionScreen extends ConsumerWidget {
   }) : super(key: key);
 
   void _onGooglePressed() {
-    GoogleService.login();
+    SocialSignInService.fetchGoogleSignInAccount();
   }
 
   void _onFacebookPressed() {}
@@ -83,6 +84,10 @@ class AuthSelectionScreen extends ConsumerWidget {
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.0),
           child: GoogleSignInButton(),
+        ),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.0),
+          child: FacebookSignInButton(),
         ),
       ],
     );

@@ -5,15 +5,15 @@ import 'package:speech/provider/authProviders/socialSignInProvider.dart';
 import 'package:speech/ui/widgets/dialogs.dart';
 import 'package:speech/ui/widgets/widgets.dart';
 
-class GoogleSignInButton extends ConsumerWidget {
-  const GoogleSignInButton({
+class FacebookSignInButton extends ConsumerWidget {
+  const FacebookSignInButton({
     Key? key,
   }) : super(key: key);
 
   Future<void> _onPressed(BuildContext context, WidgetRef ref) async {
-    await ref.read(socialSignInStateProvider.notifier).signInWithGoogle();
-    final isOK = ref.read(socialSignInStateProvider).googleSignInUIState ==
-        GoogleSignInUIState.OK;
+    await ref.read(socialSignInStateProvider.notifier).signInWithFacebook();
+    final isOK = ref.read(socialSignInStateProvider).facebookSignInUIState ==
+        FacebookSignInUIState.OK;
 
     if (context.mounted) {
       if (isOK) {
@@ -29,9 +29,9 @@ class GoogleSignInButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(socialSignInStateProvider).googleSignInUIState;
+    final state = ref.watch(socialSignInStateProvider).facebookSignInUIState;
     switch (state) {
-      case GoogleSignInUIState.LOADING:
+      case FacebookSignInUIState.LOADING:
         return AppWidgets.loadingAnimation(size: 25);
       default:
         return OutlinedButton(
@@ -46,12 +46,12 @@ class GoogleSignInButton extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(
-                FontAwesomeIcons.google,
+                FontAwesomeIcons.facebook,
                 color: Colors.white,
               ),
               const SizedBox(width: 10),
               Text(
-                "Sign in with Google",
+                "Sign in with Facebook",
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                   color: Colors.white,
                 ),
