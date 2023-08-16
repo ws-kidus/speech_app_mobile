@@ -24,12 +24,15 @@ class UserService extends StateNotifier<UserState> {
       final List<UserModel> user = [];
 
       final accessToken = ref.read(authStateProvider).accessToken.first;
-      final options = Options(headers: {"Authorization": "Bearer $accessToken"});
+      final options = Options(headers: {
+        "Authorization": "Bearer $accessToken",
+        "Accept": "application/json",
+      });
 
       final response = await UserRepo.fetchUser(options: options);
 
-      if(response.data != null){
-        final List result = response.data['result'];
+      if (response.data != null) {
+        final List result = [response.data['result']];
         result.map((e) => user.add(UserModel.fromMap(e))).toList();
       }
 
@@ -38,6 +41,13 @@ class UserService extends StateNotifier<UserState> {
       debugPrint("ERROR ON INITIALIZING USER");
       debugPrint("DIO ERROR TYPE ${ex.type.name}");
       debugPrint("ERROR MESSAGE ${ex.error}");
+
+      if (ex.response != null) {
+        debugPrint("ERROR RESPONSE: ${ex.response!.data}");
+      } else {
+        debugPrint("ERROR RESPONSE: null");
+      }
+
       state = state.copyWith(userUIState: UserUIState.ERROR);
     } catch (e) {
       debugPrint("ERROR ON INITIALIZING USER");

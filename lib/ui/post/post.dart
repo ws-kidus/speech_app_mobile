@@ -101,15 +101,7 @@ class _SinglePost extends ConsumerWidget {
     const radius = 15.0;
     return CachedNetworkImage(
       imageUrl: imageUrl,
-      imageBuilder: (context, imageProvider) => ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(radius),
-            topRight: Radius.circular(radius),
-          ),
-          child: Image(
-            image: imageProvider,
-            fit: BoxFit.cover,
-          )),
+      fit: BoxFit.cover,
       placeholder: (context, url) => AppWidgets.loadingAnimation(),
       errorWidget: (context, url, error) => ClipRRect(
         borderRadius: const BorderRadius.only(

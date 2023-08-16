@@ -48,7 +48,7 @@ class AuthService extends StateNotifier<AuthState> {
     }
 
     final data = json.decode(stored);
-    print("++data ${data['accessToken']}");
+    debugPrint("ACCESS TOKEN: ${data['accessToken']}");
     state = state.copyWith(accessToken: [data['accessToken']]);
 
     await ref.read(userStateProvider.notifier).fetchUser();
