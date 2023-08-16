@@ -8,7 +8,7 @@ class AuthRepo {
     required String name,
     required String email,
     required String password,
-    required String photoUrl,
+    required String? photoUrl,
   }) async {
     final data = {
       'name': name,
@@ -16,9 +16,15 @@ class AuthRepo {
       'password': password,
       'photoUrl': photoUrl,
     };
+
+    final options = Options(
+      headers: {"Accept": "application/json"},
+    );
+
     Response response = await _client.dio.post(
       "/socialAuth",
       data: data,
+      options: options,
     );
     return response;
   }

@@ -52,6 +52,7 @@ class Dialogs {
   static void toast({
     required BuildContext context,
     required String message,
+    Color backgroundColor = Colors.white,
     required String buttonText,
     Color buttonColor = Colors.red,
     Function? function,
@@ -60,15 +61,18 @@ class Dialogs {
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
+          backgroundColor: backgroundColor,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(5.0)),
           ),
           margin: const EdgeInsets.all(25),
           behavior: SnackBarBehavior.floating,
           duration: const Duration(milliseconds: 4000),
-          content: Text(
-            message,
-            style: Theme.of(context).textTheme.titleMedium,
+          content: FittedBox(
+            child: Text(
+              message,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ),
           action: SnackBarAction(
             onPressed: () {

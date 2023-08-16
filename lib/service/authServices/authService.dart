@@ -27,6 +27,8 @@ class AuthService extends StateNotifier<AuthState> {
   }) async {
     final data = {'accessToken': accessToken};
     await _storage.write(key: AuthState.storageKey, value: json.encode(data));
+    debugPrint("STORED ACCESS TOKEN");
+
   }
 
   checkAuthState() async {
@@ -46,7 +48,8 @@ class AuthService extends StateNotifier<AuthState> {
     }
 
     final data = json.decode(stored);
-    state = state.copyWith(accessToken: data['accessToken']);
+    print("++data ${data['accessToken']}");
+    state = state.copyWith(accessToken: [data['accessToken']]);
 
     await ref.read(userStateProvider.notifier).fetchUser();
 

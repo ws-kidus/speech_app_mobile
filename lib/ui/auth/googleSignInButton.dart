@@ -32,7 +32,10 @@ class GoogleSignInButton extends ConsumerWidget {
     final state = ref.watch(socialSignInStateProvider).googleSignInUIState;
     switch (state) {
       case GoogleSignInUIState.LOADING:
-        return AppWidgets.loadingAnimation(size: 25);
+        return AppWidgets.loadingAnimation(
+          size: 25,
+          color: Colors.white,
+        );
       default:
         return OutlinedButton(
           style: OutlinedButton.styleFrom(
@@ -53,8 +56,8 @@ class GoogleSignInButton extends ConsumerWidget {
               Text(
                 "Sign in with Google",
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: Colors.white,
-                ),
+                      color: Colors.white,
+                    ),
               )
             ],
           ),
