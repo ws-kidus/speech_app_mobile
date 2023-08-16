@@ -4,7 +4,9 @@ class UserModel{
   final int id;
   final String name;
   final String email;
+  final String? phone;
   final String? photoUrl;
+  final String? backgroundUrl;
   final DateTime createdAt;
 
 //<editor-fold desc="Data Methods">
@@ -12,7 +14,9 @@ class UserModel{
     required this.id,
     required this.name,
     required this.email,
+    this.phone,
     this.photoUrl,
+    this.backgroundUrl,
     required this.createdAt,
   });
 
@@ -24,7 +28,9 @@ class UserModel{
           id == other.id &&
           name == other.name &&
           email == other.email &&
+          phone == other.phone &&
           photoUrl == other.photoUrl &&
+          backgroundUrl == other.backgroundUrl &&
           createdAt == other.createdAt);
 
   @override
@@ -32,7 +38,9 @@ class UserModel{
       id.hashCode ^
       name.hashCode ^
       email.hashCode ^
+      phone.hashCode ^
       photoUrl.hashCode ^
+      backgroundUrl.hashCode ^
       createdAt.hashCode;
 
   @override
@@ -41,7 +49,9 @@ class UserModel{
         ' id: $id,' +
         ' name: $name,' +
         ' email: $email,' +
+        ' phone: $phone,' +
         ' photoUrl: $photoUrl,' +
+        ' backgroundUrl: $backgroundUrl,' +
         ' createdAt: $createdAt,' +
         '}';
   }
@@ -50,14 +60,18 @@ class UserModel{
     int? id,
     String? name,
     String? email,
+    String? phone,
     String? photoUrl,
+    String? backgroundUrl,
     DateTime? createdAt,
   }) {
     return UserModel(
       id: id ?? this.id,
       name: name ?? this.name,
       email: email ?? this.email,
+      phone: phone ?? this.phone,
       photoUrl: photoUrl ?? this.photoUrl,
+      backgroundUrl: backgroundUrl ?? this.backgroundUrl,
       createdAt: createdAt ?? this.createdAt,
     );
   }
@@ -67,7 +81,9 @@ class UserModel{
       'id': this.id,
       'name': this.name,
       'email': this.email,
+      'phone': this.phone,
       'photoUrl': this.photoUrl,
+      'backgroundUrl': this.backgroundUrl,
       'createdAt': this.createdAt,
     };
   }
@@ -77,7 +93,9 @@ class UserModel{
       id: map['id'],
       name: map['name'],
       email: map['email'] ,
+      phone: map['phone'] ,
       photoUrl: map['photoUrl'] ,
+      backgroundUrl: map['backgroundUrl'] ,
       createdAt: DateTime.parse(map['createdAt']),
     );
   }

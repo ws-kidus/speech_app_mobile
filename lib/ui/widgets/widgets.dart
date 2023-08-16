@@ -3,6 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class AppWidgets {
+  static PreferredSizeWidget appBar({
+    required BuildContext context,
+    required String title,
+    double elevation = 0,
+    List<Widget>? actions,
+  }) {
+    return AppBar(
+      elevation: elevation,
+      titleSpacing: 5,
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.titleMedium!.copyWith(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      actions: actions,
+    );
+  }
+
   static Widget loadingAnimation({
     double size = 30,
     Color color = Colors.purple,

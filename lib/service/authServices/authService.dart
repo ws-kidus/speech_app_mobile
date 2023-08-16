@@ -28,7 +28,11 @@ class AuthService extends StateNotifier<AuthState> {
     final data = {'accessToken': accessToken};
     await _storage.write(key: AuthState.storageKey, value: json.encode(data));
     debugPrint("STORED ACCESS TOKEN");
+  }
 
+  deleteToken() async {
+    await _storage.delete(key: AuthState.storageKey);
+    debugPrint("DELETED ACCESS TOKEN");
   }
 
   checkAuthState() async {

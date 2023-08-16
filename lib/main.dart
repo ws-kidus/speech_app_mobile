@@ -54,49 +54,25 @@ class _AnimatedLoading extends StatelessWidget {
         "step",
         IntTween(begin: 0, end: speech.length),
         duration: const Duration(seconds: 1),
-      )..tween(
-        "color1",
-        ColorTween(
-          begin: const Color(0xffD38312),
-          end: Colors.lightBlue.shade900,
-        ),
-        duration: const Duration(seconds: 3),
-      )
-          .thenTween(
-        "color2",
-        ColorTween(
-          begin: const Color(0xffA83279),
-          end: Colors.blue.shade600,
-        ),
-        duration: const Duration(seconds: 3),
       );
 
-    return MirrorAnimationBuilder(
+    return PlayAnimationBuilder(
       curve: Curves.easeIn,
       tween: tween,
       duration: tween.duration,
       builder: (context, value, _) {
         String text = speech.substring(0, value.get('step'));
-        return Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [value.get("color1"), value.get("color2")],
-            ),
-          ),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20.0),
-              child: Align(alignment: Alignment.centerLeft,
-                child: Text(
-                  text,
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: Colors.white,
-                    fontSize: 60,
-                    fontWeight: FontWeight.bold
-                      ),
-                ),
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20.0),
+            child: Align(alignment: Alignment.centerLeft,
+              child: Text(
+                text,
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Colors.white,
+                  fontSize: 60,
+                  fontWeight: FontWeight.bold
+                    ),
               ),
             ),
           ),

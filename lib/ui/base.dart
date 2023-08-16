@@ -6,7 +6,7 @@ import 'package:speech/ui/following/following.dart';
 import 'package:speech/ui/post/post.dart';
 import 'package:speech/ui/notification/notificationIcon.dart';
 import 'package:speech/ui/createPost/createPost.dart';
-import 'package:speech/ui/profile/profileAvatar.dart';
+import 'package:speech/ui/user/userProfileAvatar.dart';
 
 class BaseScreen extends HookConsumerWidget {
   const BaseScreen({
@@ -29,7 +29,7 @@ class BaseScreen extends HookConsumerWidget {
         actions: const [
           NotificationIcon(),
           SizedBox(width: 10),
-          ProfileAvatar(),
+          UserProfileAvatar(),
           SizedBox(width: 20),
         ],
       ),
