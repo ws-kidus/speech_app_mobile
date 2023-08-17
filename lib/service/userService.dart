@@ -91,4 +91,39 @@ class UserService extends StateNotifier<UserState> {
       return false;
     }
   }
+
+  Future<bool> changeUserDetails({ String? name, String? phone,}) async {
+    debugPrint("CHANGING USER DETAILS");
+    try {
+      final accessToken = ref.read(authStateProvider).accessToken.first;
+      final options = Options(headers: {
+        "Authorization": "Bearer $accessToken",
+        "Accept": "application/json",
+      });
+      final response = await UserRepo.updateUserDetails(
+        options: options,
+        name: name,
+        phone: phone,
+      );
+      if (response) {
+        fetchUser();
+      }
+      return response;
+    } on DioException catch (ex) {
+      debugPrint("ERROR ON CHANGING USER DETAILS");
+      debugPrint("DIO ERROR TYPE ${ex.type.name}");
+      debugPrint("ERROR MESSAGE ${ex.error}");
+
+      if (ex.response != null) {
+        debugPrint("ERROR RESPONSE: ${ex.response!.data}");
+      } else {
+        debugPrint("ERROR RESPONSE: null");
+      }
+      return false;
+    } catch (e) {
+      debugPrint("ERROR ON CHANGING USER DETAILS");
+      debugPrint("Error Occurred ${e.toString()}");
+      return false;
+    }
+  }
 }

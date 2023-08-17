@@ -21,9 +21,11 @@ class UserProfileScreen extends ConsumerWidget {
 
   _onProfileSetting(BuildContext context) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => UserProfileSetting(user: user)));
+      context,
+      MaterialPageRoute(
+        builder: (context) => const UserProfileSetting(),
+      ),
+    );
   }
 
   _onLogOut(BuildContext context, WidgetRef ref) async {

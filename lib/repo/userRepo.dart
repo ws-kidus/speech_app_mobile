@@ -42,4 +42,24 @@ class UserRepo {
     );
     return response.statusCode ==200;
   }
+
+
+
+  static Future<bool> updateUserDetails({
+    required Options options,
+    String? name,
+    String?phone,
+  }) async {
+    final data = {
+      "name":name,
+      "phone":phone,
+    };
+
+    Response response = await _client.dio.put(
+      "/user/updateUserDetails",
+      options: options,
+      data: data,
+    );
+    return response.statusCode ==200;
+  }
 }

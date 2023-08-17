@@ -2,24 +2,36 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:speech/model/userModel.dart';
+import 'package:speech/provider/userProvider.dart';
+import 'package:speech/ui/widgets/dialogs.dart';
 import 'package:speech/ui/widgets/widgets.dart';
 
 class UserProfileSetting extends HookConsumerWidget {
-  final UserModel user;
-
   const UserProfileSetting({
     Key? key,
-    required this.user,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(userStateProvider).user.first;
     return Scaffold(
       appBar: AppWidgets.appBar(context: context, title: user.name),
       body: Column(
         children: [
           _Tile(
+            onUpdate: (String text) async {
+              final response =
+                  await ref.read(userStateProvider.notifier).changeUserDetails(
+                        name: text,
+                      );
+              if (!response && context.mounted) {
+                Dialogs.toast(
+                  context: context,
+                  message: "There seems to be a problem",
+                  buttonText: "Close",
+                );
+              }
+            },
             label: "Name",
             hintText: "Edit your name",
             value: user.name,
@@ -44,6 +56,19 @@ class UserProfileSetting extends HookConsumerWidget {
             ),
           ),
           _Tile(
+            onUpdate: (String text) async {
+              final response =
+                  await ref.read(userStateProvider.notifier).changeUserDetails(
+                        phone: text,
+                      );
+              if (!response && context.mounted) {
+                Dialogs.toast(
+                  context: context,
+                  message: "There seems to be a problem",
+                  buttonText: "Close",
+                );
+              }
+            },
             label: "Phone",
             hintText: "Enter your phone",
             value: user.phone ?? "",
@@ -71,6 +96,7 @@ class _Tile extends HookConsumerWidget {
   final String errorText;
   final TextInputAction textInputAction;
   final TextInputType textInputType;
+  final void Function(String text) onUpdate;
 
   const _Tile({
     Key? key,
@@ -81,9 +107,8 @@ class _Tile extends HookConsumerWidget {
     required this.errorText,
     required this.textInputAction,
     required this.textInputType,
+    required this.onUpdate,
   }) : super(key: key);
-
-  _onUpdate() {}
 
   _onCancel(ValueNotifier<bool> edit) {
     edit.value = false;
@@ -133,7 +158,10 @@ class _Tile extends HookConsumerWidget {
               child: Row(
                 children: [
                   IconButton(
-                    onPressed: () => _onUpdate(),
+                    onPressed: () {
+                      _onCancel(edit);
+                      onUpdate(controller.text);
+                    },
                     icon: const Icon(
                       CupertinoIcons.check_mark,
                       color: Colors.black,
