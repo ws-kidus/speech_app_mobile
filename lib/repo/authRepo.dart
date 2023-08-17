@@ -9,12 +9,14 @@ class AuthRepo {
     required String email,
     required String password,
     required String? photoUrl,
+    required int type
   }) async {
     final data = {
       'name': name,
       'email': email,
       'password': password,
       'photoUrl': photoUrl,
+      'type':type,
     };
 
     final options = Options(

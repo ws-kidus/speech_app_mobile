@@ -56,6 +56,7 @@ class SocialSignInService extends StateNotifier<SocialSignInState> {
         email: email,
         password: id,
         photoUrl: photoUrl,
+        type: 2,
       );
 
       if (response.data != null) {
@@ -132,6 +133,7 @@ class SocialSignInService extends StateNotifier<SocialSignInState> {
         email: email,
         password: id,
         photoUrl: photoUrl,
+        type: 3,
       );
 
       if (response.data != null) {
