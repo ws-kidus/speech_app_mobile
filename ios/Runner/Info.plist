@@ -47,5 +47,8 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+	<key>NSCameraUsageDescription</key>
+    	<string>Need to upload image when creating ticket or uploading receipt</string>
 </dict>
 </plist>

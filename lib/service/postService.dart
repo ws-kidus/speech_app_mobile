@@ -23,7 +23,7 @@ class PostService extends StateNotifier<PostState> {
     options = Options(
       headers: {
         "Accept": "application/json",
-        "Content-Type": "multipart/form-data,"
+        "Content-Type": "multipart/form-data",
       },
     );
     init();

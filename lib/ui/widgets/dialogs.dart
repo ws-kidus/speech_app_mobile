@@ -7,7 +7,6 @@ class Dialogs {
     bool avoidBottomInsects = false,
   }) {
     showModalBottomSheet(
-        backgroundColor: Colors.transparent,
         context: context,
         isScrollControlled: avoidBottomInsects,
         builder: (context) => Padding(
@@ -17,19 +16,8 @@ class Dialogs {
                     : 0,
               ),
               child: IntrinsicHeight(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Colors.grey,
-                  ),
-                  margin: const EdgeInsets.symmetric(
-                    vertical: 25,
-                    horizontal: 15,
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 5,
-                  ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Column(
                     children: [
                       Container(

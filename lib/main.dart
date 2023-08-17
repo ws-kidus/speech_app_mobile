@@ -69,7 +69,7 @@ class _AnimatedLoading extends StatelessWidget {
               child: Text(
                 text,
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      color: Colors.white,
+                      color: Colors.purpleAccent.shade200,
                   fontSize: 60,
                   fontWeight: FontWeight.bold
                     ),

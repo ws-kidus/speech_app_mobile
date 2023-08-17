@@ -1,10 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:speech/constants/constants.dart';
 import 'package:speech/model/userModel.dart';
 import 'package:speech/provider/authProviders/authProvider.dart';
+import 'package:speech/provider/uploadImageProvider.dart';
+import 'package:speech/provider/userProvider.dart';
 import 'package:speech/ui/user/userProfileAvatar.dart';
 import 'package:speech/ui/user/userProfileSetting.dart';
+import 'package:speech/ui/widgets/dialogs.dart';
+import 'package:speech/ui/widgets/uploadImage.dart';
 
 class UserProfileScreen extends ConsumerWidget {
   final UserModel user;
@@ -50,10 +55,7 @@ class UserProfileScreen extends ConsumerWidget {
         body: NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScrolled) {
         return [
-          _ProfileWithBackgroundImage(
-            innerBoxIsScrolled: innerBoxIsScrolled,
-            user: user,
-          ),
+          _ProfileWithBackgroundImage(innerBoxIsScrolled: innerBoxIsScrolled),
         ];
       },
       body: ListView(
@@ -80,19 +82,97 @@ class UserProfileScreen extends ConsumerWidget {
 
 class _ProfileWithBackgroundImage extends ConsumerWidget {
   final bool innerBoxIsScrolled;
-  final UserModel user;
 
   const _ProfileWithBackgroundImage({
     Key? key,
     required this.innerBoxIsScrolled,
-    required this.user,
   }) : super(key: key);
 
-  _onBackgroundChange() {}
+  _onBackgroundChange(BuildContext context, WidgetRef ref) async {
+    Navigator.pop(context);
 
-  _onProfileImageChange() {}
+    final images = ref.read(uploadImageStateProvider).images;
 
-  _profileImage() {
+    if (images.isEmpty) {
+      Dialogs.toast(
+          context: context,
+          message: "please provide image",
+          buttonText: "close");
+      return;
+    }
+
+    final response = await ref
+        .read(userStateProvider.notifier)
+        .changeBackgroundImage(image: images.first);
+
+    if (!response && context.mounted) {
+      Dialogs.toast(
+        context: context,
+        message: "There seems to be a problem",
+        buttonText: "Close",
+      );
+    }
+  }
+
+  _onProfileImageChange(BuildContext context, WidgetRef ref) {
+    Navigator.pop(context);
+    final images = ref.read(uploadImageStateProvider).images;
+
+    if (images.isEmpty) {
+      Dialogs.toast(
+          context: context,
+          message: "Please provide image",
+          buttonText: "Close");
+      return;
+    }
+  }
+
+  _changeImage({
+    required BuildContext context,
+    required WidgetRef ref,
+    bool forBackgroundImage = false,
+  }) {
+    ref.read(uploadImageStateProvider.notifier).remove();
+    Dialogs.bottomSheet(
+        context: context,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Upload image",
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const UploadImage(),
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.centerRight,
+              child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: Colors.purpleAccent.shade400,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                onPressed: () => forBackgroundImage
+                    ? _onBackgroundChange(context, ref)
+                    : _onProfileImageChange(context, ref),
+                child: Text(
+                  "Upload",
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ),
+            )
+          ],
+        ));
+  }
+
+  Widget _profileImage({
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
     return Padding(
       padding: const EdgeInsets.only(left: 16.0),
       child: Stack(
@@ -102,7 +182,7 @@ class _ProfileWithBackgroundImage extends ConsumerWidget {
           Positioned(
             bottom: 0,
             child: IconButton(
-              onPressed: () => _onProfileImageChange(),
+              onPressed: () => _changeImage(context: context, ref: ref),
               icon: const Icon(Icons.edit, color: Colors.white, size: 30),
             ),
           )
@@ -113,6 +193,9 @@ class _ProfileWithBackgroundImage extends ConsumerWidget {
 
   @override
   SliverAppBar build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(userStateProvider).user.first;
+    final backgroundImageUrl = "${Constants.IMAGEURL}${user.backgroundUrl}";
+
     return SliverAppBar(
       backgroundColor: Colors.purple.shade300,
       expandedHeight: 250.0,
@@ -135,16 +218,23 @@ class _ProfileWithBackgroundImage extends ConsumerWidget {
             color: user.backgroundUrl == null ? Colors.purple.shade300 : null,
             image: user.backgroundUrl == null
                 ? null
-                : DecorationImage(image: NetworkImage(user.backgroundUrl!)),
+                : DecorationImage(
+                    image: NetworkImage(backgroundImageUrl),
+                    fit: BoxFit.cover,
+                  ),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              _profileImage(),
+              _profileImage(context: context, ref: ref),
               Align(
                 alignment: Alignment.centerRight,
                 child: IconButton(
-                  onPressed: () => _onBackgroundChange(),
+                  onPressed: () => _changeImage(
+                    context: context,
+                    ref: ref,
+                    forBackgroundImage: true,
+                  ),
                   icon: const Icon(Icons.edit, color: Colors.white, size: 30),
                 ),
               ),
