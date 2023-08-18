@@ -34,7 +34,7 @@ class FacebookSignInButton extends ConsumerWidget {
       case FacebookSignInUIState.LOADING:
         return AppWidgets.loadingAnimation(
           size: 25,
-          color: Colors.white,
+          color: Colors.purpleAccent,
         );
       default:
         return OutlinedButton(
@@ -50,13 +50,13 @@ class FacebookSignInButton extends ConsumerWidget {
             children: [
               const Icon(
                 FontAwesomeIcons.facebook,
-                color: Colors.white,
+                color: Colors.purpleAccent,
               ),
               const SizedBox(width: 10),
               Text(
                 "Sign in with Facebook",
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      color: Colors.white,
+                      color: Colors.purpleAccent,
                     ),
               )
             ],
