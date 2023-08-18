@@ -71,7 +71,7 @@ class SignInService extends StateNotifier<SignInState> {
       if (ex.response != null) {
         debugPrint("ERROR RESPONSE: ${ex.response!.data}");
         errorMessage =
-            ex.response!.data['error'] ?? "There seems to be a problem";
+            ex.response!.data['message'] ?? "There seems to be a problem";
       } else {
         debugPrint("ERROR RESPONSE: null");
         errorMessage = "There seems to be a problem";
