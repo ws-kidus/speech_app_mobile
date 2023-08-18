@@ -38,7 +38,9 @@ class AuthSelectionScreen extends ConsumerWidget {
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.symmetric(vertical: 8),
-        backgroundColor: Colors.purpleAccent.shade200.withOpacity(0.5),
+        side: const BorderSide(
+          color: Colors.purpleAccent,
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
@@ -47,7 +49,7 @@ class AuthSelectionScreen extends ConsumerWidget {
       child: Text(
         text,
         style: Theme.of(context).textTheme.titleLarge!.copyWith(
-              color: Colors.white,
+              color: Colors.purpleAccent,
             ),
       ),
     );
@@ -57,12 +59,12 @@ class AuthSelectionScreen extends ConsumerWidget {
     required BuildContext context,
     required WidgetRef ref,
   }) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Row(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Column(
+        children: [
+          const SizedBox(height: 450),
+          Row(
             children: [
               Expanded(
                 child: _button(
@@ -81,23 +83,17 @@ class AuthSelectionScreen extends ConsumerWidget {
               ),
             ],
           ),
-        ),
-        const SizedBox(height: 20),
-        Text(
-          "or continue with",
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: Colors.purpleAccent,
-              ),
-        ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.0),
-          child: GoogleSignInButton(),
-        ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.0),
-          child: FacebookSignInButton(),
-        ),
-      ],
+          const SizedBox(height: 20),
+          Text(
+            "or continue with",
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: Colors.purpleAccent,
+                ),
+          ),
+          const GoogleSignInButton(),
+          const FacebookSignInButton(),
+        ],
+      ),
     );
   }
 
@@ -114,4 +110,3 @@ class AuthSelectionScreen extends ConsumerWidget {
     );
   }
 }
-

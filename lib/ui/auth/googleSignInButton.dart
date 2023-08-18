@@ -39,15 +39,15 @@ class GoogleSignInButton extends ConsumerWidget {
       default:
         return OutlinedButton(
           style: OutlinedButton.styleFrom(
-            side: const BorderSide(color: Colors.white),
+            side: const BorderSide(color: Colors.purpleAccent),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
           ),
           onPressed: () => _onPressed(context, ref),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Spacer(),
               const Icon(
                 FontAwesomeIcons.google,
                 color: Colors.purpleAccent,
@@ -58,7 +58,8 @@ class GoogleSignInButton extends ConsumerWidget {
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: Colors.purpleAccent,
                     ),
-              )
+              ),
+              const Spacer(),
             ],
           ),
         );

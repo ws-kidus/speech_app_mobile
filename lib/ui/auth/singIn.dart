@@ -1,8 +1,8 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:regexed_validator/regexed_validator.dart';
 import 'package:speech/provider/authProviders/signInProvider.dart';
 import 'package:speech/ui/auth/signUp.dart';
 import 'package:speech/ui/widgets/animatedBackground.dart';
@@ -167,7 +167,7 @@ class SignInScreen extends HookConsumerWidget {
         ),
         const SizedBox(height: 50),
         TextFormField(
-          validator: (value) => value != null && EmailValidator.validate(value)
+          validator: (value) => value != null && validator.email(value)
               ? null
               : "Please enter a valid email",
           controller: emailController,
