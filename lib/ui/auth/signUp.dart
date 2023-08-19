@@ -323,6 +323,7 @@ class SignUpScreen extends HookConsumerWidget {
         useTextEditingController.fromValue(TextEditingValue.empty);
 
     return Scaffold(
+      resizeToAvoidBottomInset: MediaQuery.of(context).size.height>700,
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
