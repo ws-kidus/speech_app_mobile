@@ -36,7 +36,7 @@ class SignInService extends StateNotifier<SignInState> {
     required bool rememberMe,
   }) async {
     email = email.trim();
-    password = email.trim();
+    password = password.trim();
 
     if (rememberMe) {
       storeCredentials(email: email, password: password);

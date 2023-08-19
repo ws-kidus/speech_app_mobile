@@ -23,7 +23,8 @@ class SignUpService extends StateNotifier<SignUpState> {
   }) async {
     name = name.trim();
     email = email.trim();
-    password = email.trim();
+    password = password.trim();
+    confirmPassword = confirmPassword.trim();
 
     debugPrint("INITIALIZE SIGNUP");
     state = state.copyWith(signUpUIState: SignUpUIState.LOADING);

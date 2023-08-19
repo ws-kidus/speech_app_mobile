@@ -17,6 +17,7 @@ class AuthRepo {
       'password_confirmation':confirmPassword,
     };
 
+    print("++data $data");
     final options = Options(
       headers: {"Accept": "application/json"},
     );
