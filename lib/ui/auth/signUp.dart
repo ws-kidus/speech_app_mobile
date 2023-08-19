@@ -14,6 +14,7 @@ class _SignUpButton extends ConsumerWidget {
   final TextEditingController nameController;
   final TextEditingController emailController;
   final TextEditingController passwordController;
+  final TextEditingController confirmPasswordController;
   final bool accepted;
 
   const _SignUpButton({
@@ -21,6 +22,7 @@ class _SignUpButton extends ConsumerWidget {
     required this.nameController,
     required this.emailController,
     required this.passwordController,
+    required this.confirmPasswordController,
     required this.accepted,
     Key? key,
   }) : super(key: key);
@@ -40,6 +42,7 @@ class _SignUpButton extends ConsumerWidget {
             name: nameController.text,
             email: emailController.text,
             password: passwordController.text,
+            confirmPassword: confirmPasswordController.text,
           );
 
       final isOk =
@@ -109,6 +112,7 @@ class SignUpScreen extends HookConsumerWidget {
     required TextEditingController nameController,
     required TextEditingController emailController,
     required TextEditingController passwordController,
+    required TextEditingController confirmPasswordController,
     required bool accepted,
   }) {
     return Row(
@@ -123,6 +127,7 @@ class SignUpScreen extends HookConsumerWidget {
           nameController: nameController,
           emailController: emailController,
           passwordController: passwordController,
+          confirmPasswordController: confirmPasswordController,
           accepted: accepted,
         ),
       ],
@@ -235,8 +240,10 @@ class SignUpScreen extends HookConsumerWidget {
         ),
         const SizedBox(height: 5),
         TextFormField(
-          validator: (value) => value != null && value.length > 7
-              ? null
+          validator: (value) => value != null && value.isNotEmpty
+              ? value.length > 7
+                  ? null
+                  : "password must be at least 8 characters"
               : "Please enter a valid password",
           controller: passwordController,
           textInputAction: TextInputAction.next,
@@ -375,6 +382,7 @@ class SignUpScreen extends HookConsumerWidget {
                           nameController: nameController,
                           emailController: emailController,
                           passwordController: passwordController,
+                          confirmPasswordController: confirmPasswordController,
                           accepted: accepted.value,
                         ),
                       ),

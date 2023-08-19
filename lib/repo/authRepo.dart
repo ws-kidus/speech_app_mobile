@@ -8,11 +8,13 @@ class AuthRepo {
     required String name,
     required String email,
     required String password,
+    required String confirmPassword,
   }) async {
     final data = {
       'name':name,
       'email': email,
       'password': password,
+      'password_confirmation':confirmPassword,
     };
 
     final options = Options(

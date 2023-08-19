@@ -19,6 +19,7 @@ class SignUpService extends StateNotifier<SignUpState> {
     required String name,
     required String email,
     required String password,
+    required String confirmPassword,
   }) async {
     name = name.trim();
     email = email.trim();
@@ -31,6 +32,7 @@ class SignUpService extends StateNotifier<SignUpState> {
         name: name,
         email: email,
         password: password,
+        confirmPassword: confirmPassword,
       );
 
       if (response.data != null) {
