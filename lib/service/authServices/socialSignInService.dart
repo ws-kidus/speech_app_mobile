@@ -69,24 +69,37 @@ class SocialSignInService extends StateNotifier<SocialSignInState> {
 
         ref.read(authStateProvider.notifier).checkAuthState();
       } else {
-        state = state.copyWith(googleSignInUIState: GoogleSignInUIState.ERROR);
+        state = state.copyWith(
+          googleSignInUIState: GoogleSignInUIState.ERROR,
+          errorMessage: "ERROR",
+        );
       }
     } on DioException catch (ex) {
       debugPrint("ERROR ON INITIALIZE GOOGLE LOGIN");
       debugPrint("DIO ERROR TYPE ${ex.type.name}");
       debugPrint("ERROR MESSAGE ${ex.error}");
 
+      late String errorMessage;
       if (ex.response != null) {
         debugPrint("ERROR RESPONSE: ${ex.response!.data}");
+        errorMessage =
+            ex.response!.data['message'] ?? "There seems to be a problem";
       } else {
         debugPrint("ERROR RESPONSE: null");
+        errorMessage = "There seems to be a problem";
       }
 
-      state = state.copyWith(googleSignInUIState: GoogleSignInUIState.ERROR);
+      state = state.copyWith(
+        googleSignInUIState: GoogleSignInUIState.ERROR,
+        errorMessage: errorMessage,
+      );
     } catch (e) {
       debugPrint("ERROR ON INITIALIZE GOOGLE LOGIN");
       debugPrint("Error Occurred ${e.toString()}");
-      state = state.copyWith(googleSignInUIState: GoogleSignInUIState.ERROR);
+      state = state.copyWith(
+        googleSignInUIState: GoogleSignInUIState.ERROR,
+        errorMessage: "There seems to be a problem",
+      );
     }
   }
 
@@ -150,6 +163,7 @@ class SocialSignInService extends StateNotifier<SocialSignInState> {
       } else {
         state = state.copyWith(
           facebookSignInUIState: FacebookSignInUIState.ERROR,
+          errorMessage: "ERROR",
         );
       }
     } on DioException catch (ex) {
@@ -157,20 +171,26 @@ class SocialSignInService extends StateNotifier<SocialSignInState> {
       debugPrint("DIO ERROR TYPE ${ex.type.name}");
       debugPrint("ERROR MESSAGE ${ex.error}");
 
+      late String errorMessage;
       if (ex.response != null) {
         debugPrint("ERROR RESPONSE: ${ex.response!.data}");
+        errorMessage =
+            ex.response!.data['message'] ?? "There seems to be a problem";
       } else {
         debugPrint("ERROR RESPONSE: null");
+        errorMessage = "There seems to be a problem";
       }
 
       state = state.copyWith(
         facebookSignInUIState: FacebookSignInUIState.ERROR,
+        errorMessage: errorMessage,
       );
     } catch (e) {
       debugPrint("ERROR ON INITIALIZE FACEBOOK LOGIN");
       debugPrint("Error Occurred ${e.toString()}");
       state = state.copyWith(
         facebookSignInUIState: FacebookSignInUIState.ERROR,
+        errorMessage:"There seems to be a problem",
       );
     }
   }

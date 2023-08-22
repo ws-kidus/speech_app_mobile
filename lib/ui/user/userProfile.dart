@@ -116,7 +116,7 @@ class _ProfileWithBackgroundImage extends ConsumerWidget {
     }
   }
 
-  _onProfileImageChange(BuildContext context, WidgetRef ref) {
+  _onProfileImageChange(BuildContext context, WidgetRef ref) async {
     Navigator.pop(context);
     final images = ref.read(uploadImageStateProvider).images;
 
@@ -126,6 +126,18 @@ class _ProfileWithBackgroundImage extends ConsumerWidget {
           message: "Please provide image",
           buttonText: "Close");
       return;
+    }
+
+    final response = await ref
+        .read(userStateProvider.notifier)
+        .changeProfileImage(image: images.first);
+
+    if (!response && context.mounted) {
+      Dialogs.toast(
+        context: context,
+        message: "There seems to be a problem",
+        buttonText: "Close",
+      );
     }
   }
 
@@ -141,9 +153,12 @@ class _ProfileWithBackgroundImage extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Upload image",
+              forBackgroundImage
+                  ? "Change your background image"
+                  : "Change your profile image",
               style: Theme.of(context).textTheme.titleLarge,
             ),
+            const SizedBox(height: 10),
             const UploadImage(),
             const SizedBox(height: 10),
             Align(

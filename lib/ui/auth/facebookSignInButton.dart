@@ -16,11 +16,12 @@ class FacebookSignInButton extends ConsumerWidget {
         FacebookSignInUIState.OK;
 
     if (context.mounted) {
-      if (isOK) {
-      } else {
+      if (!isOK) {
+        final errorMessage = ref.read(socialSignInStateProvider).errorMessage ??
+            "There seems to be a problem, try again";
         Dialogs.toast(
           context: context,
-          message: "There seems to be a problem, try again",
+          message: errorMessage,
           buttonText: "Close",
         );
       }
