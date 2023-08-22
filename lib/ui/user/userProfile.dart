@@ -180,7 +180,7 @@ class _ProfileWithBackgroundImage extends ConsumerWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          const UserProfileAvatar(radius: 80),
+          const UserProfileAvatar(radius: 80, isClickable: false),
           Positioned(
             bottom: 0,
             child: IconButton(
