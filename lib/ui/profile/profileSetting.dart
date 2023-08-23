@@ -6,8 +6,8 @@ import 'package:speech/provider/userProvider.dart';
 import 'package:speech/ui/widgets/dialogs.dart';
 import 'package:speech/ui/widgets/widgets.dart';
 
-class UserProfileSetting extends HookConsumerWidget {
-  const UserProfileSetting({
+class ProfileSetting extends HookConsumerWidget {
+  const ProfileSetting({
     Key? key,
   }) : super(key: key);
 

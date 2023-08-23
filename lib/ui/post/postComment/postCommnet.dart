@@ -5,7 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:speech/model/postCommentModel.dart';
 import 'package:speech/model/postModel.dart';
 import 'package:speech/provider/postCommentProvider.dart';
-import 'package:speech/ui/profile/profileAvatar.dart';
+import 'package:speech/ui/post/postCreator/creatorProfileAvatar.dart';
 import 'package:speech/ui/widgets/widgets.dart';
 import 'package:speech/utils/timeUtils.dart';
 
@@ -160,7 +160,7 @@ class _SinglePostComment extends ConsumerWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: ExpansionTile(
-        leading: const ProfileAvatar(),
+        leading: const CreatorProfileAvatar(),
         title: Text(
           postComment.comment,
           style: Theme.of(context).textTheme.titleMedium,

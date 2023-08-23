@@ -1,40 +1,25 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:speech/constants/constants.dart';
-import 'package:speech/model/userModel.dart';
 import 'package:speech/provider/userProvider.dart';
-import 'package:speech/ui/user/userProfile.dart';
 import 'package:speech/ui/widgets/widgets.dart';
 
-class UserProfileAvatar extends ConsumerWidget {
-  final bool isClickable;
-  final double radius;
-
-  const UserProfileAvatar({
+class CreatorProfileAvatar extends ConsumerWidget {
+  const CreatorProfileAvatar({
     Key? key,
-    this.radius = 22,
-    this.isClickable = true,
   }) : super(key: key);
 
-  void _onTap(BuildContext context, UserModel user) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => UserProfileScreen(user: user)),
-    );
-  }
+  void _onTap(BuildContext context) {}
 
   Widget _letterProfile({
     required BuildContext context,
     required String text,
   }) {
-    return FittedBox(
-      child: Text(
-        text.toUpperCase(),
-        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: radius * 0.9),
+    return Text(
+      text.toUpperCase(),
+      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
       ),
     );
   }
@@ -45,16 +30,20 @@ class UserProfileAvatar extends ConsumerWidget {
     required String imageUrl,
   }) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(radius - 2),
+      borderRadius: BorderRadius.circular(20),
       child: CachedNetworkImage(
-        imageUrl: Constants.IMAGEURL + imageUrl,
+        imageUrl: imageUrl,
         fit: BoxFit.cover,
-        placeholder: (context, url) => AppWidgets.loadingAnimation(
-          color: Colors.white,
-        ),
+        placeholder: (context, url) => AppWidgets.loadingAnimation(),
         errorWidget: (context, url, error) => Container(
           padding: const EdgeInsets.all(10),
-          child: _letterProfile(context: context, text: text),
+          child: Text(
+            text.toUpperCase(),
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ),
     );
@@ -63,16 +52,19 @@ class UserProfileAvatar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(userStateProvider).userUIState;
-    final users = ref.read(userStateProvider).user;
 
     late Widget body;
     switch (state) {
       case UserUIState.NONE:
       case UserUIState.LOADING:
-        body = AppWidgets.loadingAnimation(color: Colors.white);
+        body = AppWidgets.loadingAnimation();
         break;
-      default:
-        final user = users.first;
+      case UserUIState.ERROR:
+        body = _letterProfile(context: context, text: "s");
+        break;
+      case UserUIState.DONE:
+        final user = ref.read(userStateProvider).user.first;
+        print("++photo ${user.photoUrl}");
         if (user.photoUrl == null) {
           body = _letterProfile(context: context, text: user.name[0]);
           break;
@@ -86,10 +78,10 @@ class UserProfileAvatar extends ConsumerWidget {
     }
 
     return GestureDetector(
-      onTap: isClickable ? () => _onTap(context, users.first) : null,
+      onTap: () => _onTap(context),
       child: CircleAvatar(
         backgroundColor: Colors.purpleAccent,
-        radius: radius,
+        radius: 22,
         child: body,
       ),
     );

@@ -8,9 +8,9 @@ import 'package:speech/constants/constants.dart';
 import 'package:speech/model/postModel.dart';
 import 'package:speech/provider/postCommentProvider.dart';
 import 'package:speech/provider/postProvider.dart';
+import 'package:speech/ui/post/postComment/postCommnet.dart';
+import 'package:speech/ui/post/postCreator/creatorProfileAvatar.dart';
 import 'package:speech/ui/post/postImage.dart';
-import 'package:speech/ui/postComment/postCommnet.dart';
-import 'package:speech/ui/profile/profileAvatar.dart';
 import 'package:speech/ui/widgets/carousel.dart';
 import 'package:speech/ui/widgets/dialogs.dart';
 import 'package:speech/ui/widgets/widgets.dart';
@@ -177,7 +177,7 @@ class _SinglePost extends ConsumerWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const ProfileAvatar(),
+                      const CreatorProfileAvatar(),
                       const SizedBox(width: 10),
                       Flexible(
                         child: Text(
