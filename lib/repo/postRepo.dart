@@ -13,7 +13,8 @@ class PostRepo {
   }) async {
     Response response = await _client.dio.get(
       "/posts",
-      queryParameters: {"page": page},
+      // queryParameters: {"page": page},
+      options: options,
     );
     return response;
   }
@@ -74,6 +75,7 @@ class PostRepo {
 
     Response response = await _client.dio.post(
       "/posts/updateLike",
+      options: options,
       data: data,
     );
     return response.statusCode == 200;

@@ -3,29 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:speech/model/postModel.dart';
+import 'package:speech/provider/authProviders/authProvider.dart';
 import 'package:speech/provider/postProvider.dart';
 import 'package:speech/repo/postRepo.dart';
 
 class PostService extends StateNotifier<PostState> {
   final Ref ref;
-  late Options options;
+
 
   PostService({
     required this.ref,
   }) : super(
-           PostState(
+          const PostState(
             postUIState: PostUIState.NONE,
             loadMoreUIState: LoadMoreUIState.NONE,
             posts: [],
             createPostUIState: CreatePostUIState.NONE,
           ),
         ) {
-    options = Options(
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "multipart/form-data",
-      },
-    );
     init();
   }
 
@@ -55,9 +50,17 @@ class PostService extends StateNotifier<PostState> {
     try {
       List<PostModel> posts = state.posts;
 
+      final accessToken = ref.read(authStateProvider).accessToken.first;
+      final options = Options(
+        headers: {
+          "Authorization": "Bearer $accessToken",
+          "Accept": "application/json",
+        },
+      );
+
       final response = await PostRepo.fetchPosts(
         options: options,
-        page: 1,
+        page: _postsPage,
       );
 
       if (response.data != null) {
@@ -71,6 +74,13 @@ class PostService extends StateNotifier<PostState> {
       debugPrint("ERROR ON INITIALIZING POSTS");
       debugPrint("DIO ERROR TYPE ${ex.type.name}");
       debugPrint("ERROR MESSAGE ${ex.error}");
+
+      if (ex.response != null) {
+        debugPrint("ERROR RESPONSE: ${ex.response!.data}");
+      } else {
+        debugPrint("ERROR RESPONSE: null");
+      }
+
       state = state.copyWith(postUIState: PostUIState.ERROR);
     } catch (e) {
       debugPrint("ERROR ON INITIALIZING POSTS");
@@ -90,6 +100,16 @@ class PostService extends StateNotifier<PostState> {
     debugPrint("CREATING POSTS");
     state = state.copyWith(createPostUIState: CreatePostUIState.LOADING);
     try {
+
+      final accessToken = ref.read(authStateProvider).accessToken.first;
+      final options = Options(
+        headers: {
+          "Authorization": "Bearer $accessToken",
+          "Accept": "application/json",
+          "Content-Type": "multipart/form-data",
+        },
+      );
+
       final response = await PostRepo.createPost(
         options: options,
         speech: speech,
@@ -105,6 +125,13 @@ class PostService extends StateNotifier<PostState> {
       debugPrint("ERROR ON CREATING POSTS");
       debugPrint("DIO ERROR TYPE ${ex.type.name}");
       debugPrint("ERROR MESSAGE ${ex.error}");
+
+      if (ex.response != null) {
+        debugPrint("ERROR RESPONSE: ${ex.response!.data}");
+      } else {
+        debugPrint("ERROR RESPONSE: null");
+      }
+
       state = state.copyWith(createPostUIState: CreatePostUIState.ERROR);
     } catch (e) {
       debugPrint("ERROR ON CREATING POSTS");
@@ -122,6 +149,15 @@ class PostService extends StateNotifier<PostState> {
   }) async {
     debugPrint("UPDATE POST LIKE");
     try {
+
+      final accessToken = ref.read(authStateProvider).accessToken.first;
+      final options = Options(
+        headers: {
+          "Authorization": "Bearer $accessToken",
+          "Accept": "application/json",
+        },
+      );
+
       final response = await PostRepo.updateLikeStatus(
         options: options,
         postId: postId,
@@ -136,6 +172,13 @@ class PostService extends StateNotifier<PostState> {
       debugPrint("ERROR ON UPDATE POST LIKE");
       debugPrint("DIO ERROR TYPE ${ex.type.name}");
       debugPrint("ERROR MESSAGE ${ex.error}");
+
+      if (ex.response != null) {
+        debugPrint("ERROR RESPONSE: ${ex.response!.data}");
+      } else {
+        debugPrint("ERROR RESPONSE: null");
+      }
+
       //todo pending update actions
     } catch (e) {
       debugPrint("ERROR ON UPDATE POST LIKE");
