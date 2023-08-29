@@ -35,12 +35,12 @@ class FacebookSignInButton extends ConsumerWidget {
       case FacebookSignInUIState.LOADING:
         return AppWidgets.loadingAnimation(
           size: 25,
-          color: Colors.purpleAccent,
+          color: Colors.deepPurple,
         );
       default:
         return OutlinedButton(
           style: OutlinedButton.styleFrom(
-            side: const BorderSide(color: Colors.purpleAccent),
+            side: const BorderSide(color: Colors.deepPurple),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
@@ -52,13 +52,13 @@ class FacebookSignInButton extends ConsumerWidget {
               const SizedBox(width: 20),
               const Icon(
                 FontAwesomeIcons.facebook,
-                color: Colors.purpleAccent,
+                color: Colors.deepPurple,
               ),
               const SizedBox(width: 10),
               Text(
                 "Sign in with Facebook",
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      color: Colors.purpleAccent,
+                      color: Colors.deepPurple,
                     ),
               ),
               const Spacer(),

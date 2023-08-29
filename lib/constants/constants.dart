@@ -8,4 +8,5 @@ class Constants{
 
 class LocalImages{
   static String noImage = "assets/images/noImg.png";
+  static String groupDiscussion = "assets/images/illustration/groupDiscussion.gif";
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:speech/constants/constants.dart';
 import 'package:speech/ui/auth/facebookSignInButton.dart';
 import 'package:speech/ui/auth/googleSignInButton.dart';
 import 'package:speech/ui/auth/signUp.dart';
@@ -30,7 +31,49 @@ class AuthSelectionScreen extends ConsumerWidget {
     );
   }
 
-  _button({
+  Widget _message({
+    required BuildContext context,
+  }) {
+    return SizedBox(
+      height: 450,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Image.asset(
+              width: double.infinity,
+              height: double.infinity,
+              LocalImages.groupDiscussion,
+            ),
+          ),
+          Text(
+            "Let's Get Started",
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontWeight: FontWeight.bold,
+                fontSize: 56,
+                color: Colors.deepPurple.shade800),
+          ),
+          Text(
+            "Speak your mind, Share your ideas",
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium!
+                .copyWith(color: Colors.deepPurple.shade800),
+          ),
+          Text(
+            "Speak up, Speech values your opinion",
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium!
+                .copyWith(color: Colors.deepPurple.shade800),
+          ),
+          const SizedBox(height: 10),
+        ],
+      ),
+    );
+  }
+
+  Widget _button({
     required BuildContext context,
     required VoidCallback onPressed,
     required String text,
@@ -39,7 +82,7 @@ class AuthSelectionScreen extends ConsumerWidget {
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.symmetric(vertical: 8),
         side: const BorderSide(
-          color: Colors.purpleAccent,
+          color: Colors.deepPurple,
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
@@ -49,7 +92,7 @@ class AuthSelectionScreen extends ConsumerWidget {
       child: Text(
         text,
         style: Theme.of(context).textTheme.titleLarge!.copyWith(
-              color: Colors.purpleAccent,
+              color: Colors.deepPurple,
             ),
       ),
     );
@@ -63,7 +106,7 @@ class AuthSelectionScreen extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
         children: [
-          const SizedBox(height: 450),
+          _message(context: context),
           Row(
             children: [
               Expanded(
@@ -87,7 +130,7 @@ class AuthSelectionScreen extends ConsumerWidget {
           Text(
             "or continue with",
             style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  color: Colors.purpleAccent,
+                  color: Colors.deepPurple,
                 ),
           ),
           const GoogleSignInButton(),
